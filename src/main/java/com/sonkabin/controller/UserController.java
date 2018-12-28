@@ -57,8 +57,8 @@ public class UserController {
     @PostMapping("/user")//保存User
     public String addUser(User user){//SpringBoot会自动封装对象
         user.setCreate(LocalDateTime.now());
-        user.setUpdate(LocalDateTime.now());
         System.out.println(user);
+        user.setUpdate(LocalDateTime.now());
 
         userService.saveUser(user);
         return "redirect:/users";
