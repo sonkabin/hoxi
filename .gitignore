@@ -30,3 +30,5 @@ logback-spring.xml
 .idea
 *.iml
 target
+.project
+.classpath
