@@ -49,37 +49,34 @@
 
 		<div class="container-fluid">
 			<div class="row">
-				<div th:replace="~{commons/bar::#sidebar(activeUri='settings')}"></div>
+				<div th:replace="~{commons/bar::#sidebar}"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-					<h1>系统设置</h1>
-					<h3>角色管理</h3>
-					<h2><a class="btn btn-sm btn-success" th:href="@{/role}">添加角色</a></h2>
+					<h1>结题验收管理</h1>
 					<div class="table-responsive">
 						<table class="table table-striped table-sm">
 							<thead>
 								<tr>
 									<th>编号</th>
-									<th>角色名</th>
-									<th>描述</th>
-									<th>备注</th>
-									<th>创建时间</th>
-									<th>更新时间</th>
+									<th>项目ID</th>
+									<th>项目名称</th>
+									<th>结题日期</th>
+									<th>材料说明</th>
+									<th>状态</th>
 									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="role:${roles}">
-									<td th:text="${role.id}"></td>
-									<td>[[${role.name}]]</td>
-									<td th:text="${role.description}"></td>
-									<td th:text="${role.note}"></td>
-									<td th:text="${#temporals.format(role.create,'yyyy-MM-dd HH:mm:ss')}"></td>
-									<td th:text="${#temporals.format(role.update,'yyyy-MM-dd HH:mm:ss')}"></td>
-
+								<tr th:each="postManage:${postManages}">
+									<td th:text="${postManage.id}"></td>
+									<td th:text="${postManage.project.id}"></td>
+									<td th:text="${postManage.project.name}"></td>
+									<td th:text="${#temporals.format(postManage.endDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td th:text="${postManage.path}"></td>
+									<td th:text="${postManage.status}==1?'审核中':(${postManage.status == 2} ? '已结题':'待整改') "></td>
 									<td>
-										<a class="btn btn-sm btn-primary" th:href="@{/role/}+${role.id}">编辑</a>
-										<button th:attr="del_uri=@{/user/}+${role.id},del_name=${role.name}" class="btn btn-sm btn-danger del-btn">删除</button>
+										<a class="btn btn-sm btn-primary" th:href="@{/postManage/}+${postManage.id}">编辑</a>
+										<a class="btn btn-sm btn-danger" th:href="@{/user/}+${user.id}">驳回</a>
 									</td>
 								</tr>
 							</tbody>
@@ -99,50 +96,12 @@
 		<script type="text/javascript" src="asserts/js/popper.min.js" th:src="@{/asserts/js/popper.min.js}"></script>
 
 		<script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.2/js/bootstrap.js}" ></script>
-		<script>
-			$('.del-btn').click(function () {
-			    var flag = confirm('确认要删除'+$(this).attr('del_name')+'吗?');
-			    if(flag){
-                    $('#deleteForm').attr('action',$(this).attr('del_uri')).submit();
-                }
-				return false;
-            })
-		</script>
 
 		<!-- Icons -->
 		<script type="text/javascript" src="asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
 
 		<!-- Graphs -->
-		<script type="text/javascript" th:src="@{/asserts/js/Chart.min.js}"  src="../static/asserts/js/Chart.min.js"></script>
-			<script>
-			var ctx = document.getElementById("myChart");
-			var myChart = new Chart(ctx, {
-				type: 'line',
-				data: {
-					labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-					datasets: [{
-						data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
-						lineTension: 0,
-						backgroundColor: 'transparent',
-						borderColor: '#007bff',
-						borderWidth: 4,
-						pointBackgroundColor: '#007bff'
-					}]
-				},
-				options: {
-					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero: false
-							}
-						}]
-					},
-					legend: {
-						display: false,
-					}
-				}
-			});
-		</script>
+		<script type="text/javascript" th:src="@{/asserts/js/Chart.min.js}"  src="../../static/asserts/js/Chart.min.js"></script>
 
 	</body>
 
