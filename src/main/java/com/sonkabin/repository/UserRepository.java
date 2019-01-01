@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(value = "select u from User u inner join fetch u.dept d inner join fetch u.role r order by u.id")
     List<User> findAllWithDetails();
 
+    @Query(value = "select u from User u where u.role.id = ?1")
+    List<User> findAllWithRoleId(Integer id);
+
 }

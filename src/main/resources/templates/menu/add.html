@@ -52,26 +52,18 @@
 				<div th:replace="~{commons/bar::#sidebar}"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-					<form th:action="@{/role}"  method="post">
+					<form th:action="@{/menu}"  method="post">
 						<!--
 							添加隐藏域，以使SpringBoot能将post请求转化为put请求
 						-->
-						<input type="hidden" name="_method" value="put" th:if="${role!=null}"/>
-						<input type="hidden" name="roleId" th:value="${role.id}" th:if="${role!=null}">
-						<input type="hidden" name="id" th:value="${role.id}" th:if="${role!=null}">
+						<input type="hidden" name="_method" value="put" th:if="${menu!=null}"/>
+						<input type="hidden" name="menuId" th:value="${menu.id}" th:if="${menu!=null}">
+						<input type="hidden" name="id" th:value="${menu.id}" th:if="${menu!=null}">
 						<div class="form-group">
-							<label>角色名</label>
-							<input name="name" type="text" class="form-control" placeholder="教职工" th:value="${role!=null}?${role.name}">
+							<label>菜单名</label>
+							<input name="name" type="text" class="form-control"  th:value="${menu!=null}?${menu.name}">
 						</div>
-						<div class="form-group">
-							<label>描述</label>
-							<input name="description" type="text" class="form-control" th:value="${role!=null}?${role.description}">
-						</div>
-						<div class="form-group">
-							<label>备注</label>
-							<input type="text" class="form-control" name="note" th:value="${role!=null}?${role.note}">
-						</div>
-						<button type="submit" class="btn btn-primary" th:text="${role!=null?'修改':'添加'}">添加</button>
+						<button type="submit" class="btn btn-primary" th:text="${menu!=null?'修改':'添加'}">添加</button>
 					</form>
 
 				</main>
