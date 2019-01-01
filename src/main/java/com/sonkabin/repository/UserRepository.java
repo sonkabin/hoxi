@@ -14,10 +14,10 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     User findUserByNameAndPassword(String username,String password);
 
     //三表连接
-    @Query(value = "select u from User u inner join fetch u.dept d inner join fetch u.role r order by u.id")
+    @Query(value = "SELECT u FROM User u INNER JOIN FETCH u.dept d INNER JOIN FETCH u.role r ORDER BY u.id")
     List<User> findAllWithDetails();
 
-    @Query(value = "select u from User u where u.role.id = ?1")
+    @Query(value = "SELECT u FROM User u WHERE u.role.id = ?1")
     List<User> findAllWithRoleId(Integer id);
 
 }

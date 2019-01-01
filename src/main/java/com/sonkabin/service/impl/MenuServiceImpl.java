@@ -1,7 +1,6 @@
 package com.sonkabin.service.impl;
 
 import com.sonkabin.entity.Menu;
-import com.sonkabin.entity.UserRole;
 import com.sonkabin.repository.MenuRepository;
 import com.sonkabin.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +33,11 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void deleteMenu(Integer id) {
         menuRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Menu> findAllWithoutRole(Integer id) {
+        List<Menu> menus = menuRepository.findAllWithoutRole(id);
+        return menus;
     }
 }

@@ -61,15 +61,20 @@
 						<input type="hidden" name="id" th:value="${role.id}" th:if="${role!=null}">
 						<div class="form-group">
 							<label>角色</label>
-							<input name="name" type="text" class="form-control" placeholder="教职工" th:value="${role!=null}?${role.name}">
+							<select class="form-control" name="role.id" id="role-select">
+								<input type="hidden" th:attr="uri=@{/}">
+								<option value="0"></option>
+								<option  th:value="${role.id}" th:each="role:${roles}" th:text="${role.name}"></option>
+								<!--th:selected="${roles!=null}?${role.name}"-->
+							</select>
 						</div>
 						<div class="form-group">
 							<label>菜单</label>
-							<input name="description" type="text" class="form-control" th:value="${role!=null}?${role.description}">
-						</div>
-						<div class="form-group">
-							<label>备注</label>
-							<input type="text" class="form-control" name="note" th:value="${role!=null}?${role.note}">
+							<select class="form-control" name="role.id" id="menu-select">
+								<option value="0"></option>
+								<option  th:value="${role.id}" th:each="role:${roles}" th:text="${role.name}"></option>
+								<!--th:selected="${roles!=null}?${role.name}"-->
+							</select>
 						</div>
 						<button type="submit" class="btn btn-primary" th:text="${role!=null?'修改':'添加'}">添加</button>
 					</form>
@@ -119,6 +124,23 @@
 					}
 				}
 			});
+		</script>
+
+		<script>
+			$('#role-select').change(function () {
+				// console.log($(this).find("option:checked").val());
+                var uri = $(this).find("input").attr('uri');
+				$.ajax({
+					url:uri+'menus',
+					data:{
+					    roleId:$(this).find("option:checked").val()
+					},
+					success:function (data) {
+						$('#menu-select').clear();
+
+                    }
+				})
+            })
 		</script>
 
 	</body>

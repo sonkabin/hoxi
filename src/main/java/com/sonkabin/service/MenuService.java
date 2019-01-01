@@ -13,4 +13,6 @@ public interface MenuService {
     Menu findById(Integer id);
 
     void deleteMenu(Integer id);
+
+    List<Menu> findAllWithoutRole(Integer id);
 }

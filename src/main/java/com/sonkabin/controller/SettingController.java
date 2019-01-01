@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+
 @Controller
 public class SettingController {
 
@@ -115,7 +116,20 @@ public class SettingController {
 
     @GetMapping("/authority")
     public String toAddAuthorityPage(Model model){
-
+        //查询角色，
+        List<UserRole> roles = roleService.findAll();
+        model.addAttribute("roles",roles);
         return "authority/add";
+    }
+
+    /**
+     * 选择不同的角色时，查询还未添加的菜单
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/menus")
+    public List<Menu> getMenus(@RequestParam(name = "roleId")Integer id){
+        List<Menu> menus = menuService.findAllWithoutRole(id);
+        return null;
     }
 }
