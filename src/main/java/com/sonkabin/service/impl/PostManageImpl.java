@@ -29,12 +29,9 @@ public class PostManageImpl implements PostManageService {
     }
 
     @Override
-    public PostManage findById(Integer id){
+    public PostManage findOne(Integer id){
         Optional<PostManage> optional = postManageRepository.findById(id);
-        PostManage postManage = optional.get();
+        PostManage postManage=optional.get();
         return postManage;
     }
-
-
-
 }

@@ -9,5 +9,6 @@ public interface PostManageService {
 
     void savePostManage(PostManage postManage);
 
-    PostManage findById(Integer id);
+    PostManage findOne(Integer id);
+
 }

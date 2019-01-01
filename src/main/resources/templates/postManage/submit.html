@@ -52,26 +52,26 @@
 				<div th:replace="~{commons/bar::#sidebar}"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-					<form th:action="@{/user}"  method="post">
+					<form th:action="@{/submit}"  method="post">
 						<div class="form-group">
 							<label>项目ID</label>
-							<input readonly="true" name="project_id" type="text" class="form-control" th:value="${user!=null}?${user.name}">
+							<input name="project.id" readonly="true" type="text" class="form-control" th:value="${postManage!=null}?${postManage.project.id}">
 						</div>
 						<div class="form-group">
 							<label>项目名称</label>
-							<input readonly="true" name="project_name" type="text" class="form-control" >
+							<input name="project.name" readonly="true" type="text" class="form-control" th:value="${postManage!=null}?${postManage.project.name}">
 						</div>
 						<div class="form-group">
 							<label>项目状态</label>
-							<input readonly="true" name="state" type="text" class="form-control" >
+							<input  name="state" readonly="true" type="text" class="form-control" th:value="${postManage!=null}?${postManage.state}">
 						</div>
 						<div class="form-group">
 							<label>结题日期</label>
-							<input readonly="true" name="end_date" type="text" class="form-control" >
+							<input  name="endDate" readonly="true" type="text" class="form-control" th:value="${postManage!=null}?${postManage.endDate}">
 						</div>
 						<div class="form-group">
 							<label>上传材料说明</label>
-							<input name="path" type="text" class="form-control">
+							<input name="path" type="text" class="form-control" th:value="${postManage!=null}?${postManage.path}">
 						</div>
 
 						<button type="submit" class="btn btn-primary">提交</button>
