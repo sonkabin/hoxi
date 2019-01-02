@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface MidManageService {
     List<MidManage> findAll();
+
+    void saveMidManage(MidManage midManage);
+
+    MidManage findOne(Integer id);
 }
