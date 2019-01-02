@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
-    boolean login(String username, String password);
+    User login(String username, String password);
 
     List<User> findAll();
 
