@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface PostManageRepository extends JpaRepository<PostManage,Integer> {
 
-//    //三表查询
-//    @Query(value = "select p from PostManage p order by u.id")
-//    List<PostManage> findAllWithDetails();
+    //三表查询
+    @Query(value = "select p from PostManage p inner join fetch p.project pp where p.id is not null order by p.id")
+    List<PostManage> findAllWithDetails();
 }

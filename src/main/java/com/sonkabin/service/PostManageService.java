@@ -6,4 +6,9 @@ import java.util.List;
 
 public interface PostManageService {
     List<PostManage> findAll();
+
+    void savePostManage(PostManage postManage);
+
+    PostManage findOne(Integer id);
+
 }

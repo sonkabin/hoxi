@@ -71,12 +71,12 @@
 									<td th:text="${postManage.id}"></td>
 									<td th:text="${postManage.project.id}"></td>
 									<td th:text="${postManage.project.name}"></td>
-									<td th:text="${#temporals.format(postManage.endDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td th:text="${#temporals.format(postManage.endDate,'yyyy-MM-dd')}"></td>
 									<td th:text="${postManage.path}"></td>
-									<td th:text="${postManage.status}==1?'审核中':(${postManage.status == 2} ? '已结题':'待整改') "></td>
+									<td th:text="${postManage.state}==0?'审核中':(${postManage.state}==1?'已结题':'待整改') "></td>
 									<td>
 										<a class="btn btn-sm btn-primary" th:href="@{/postManage/}+${postManage.id}">编辑</a>
-										<a class="btn btn-sm btn-danger" th:href="@{/user/}+${user.id}">驳回</a>
+										<a class="btn btn-sm btn-danger" th:href="@{/reject/}+${postManage.id}">驳回</a>
 									</td>
 								</tr>
 							</tbody>

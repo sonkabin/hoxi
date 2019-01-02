@@ -52,40 +52,31 @@
 				<div th:replace="~{commons/bar::#sidebar}"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-					<form th:action="@{/updatereject}"  method="post">
+					<form th:action="@{/role}"  method="post">
 						<!--
 							添加隐藏域，以使SpringBoot能将post请求转化为put请求
 						-->
-						<input type="hidden" name="_method" value="put" th:if="${postManage!=null}"/>
-						<input type="hidden" name="postManageId" th:value="${postManage.id}" th:if="${postManage!=null}">
+						<input type="hidden" name="_method" value="put" th:if="${role!=null}"/>
+						<input type="hidden" name="roleId" th:value="${role.id}" th:if="${role!=null}">
+						<input type="hidden" name="id" th:value="${role.id}" th:if="${role!=null}">
 						<div class="form-group">
-							<label>项目ID</label>
-							<input name="project.id" readonly="true" type="text" class="form-control" th:value="${postManage!=null}?${postManage.project.id}">
-						</div>
-						<div class="form-group" >
-							<label>项目名称</label>
-							<input name="project.name" readonly="true" type="text" class="form-control" th:value="${postManage!=null}?${postManage.project.name}">
-						</div>
-						<div class="form-group">
-							<label>项目状态</label><br/>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="state"  value="0" th:checked="${#strings.equals(postManage.state,'0')}">
-								<label class="form-check-label">待审核</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="state"  value="1" th:checked="${#strings.equals(postManage.state,'1')}">
-								<label class="form-check-label">已结题</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="state"  value="2" th:checked="${#strings.equals(postManage.state,'2')}">
-								<label class="form-check-label">待整改</label>
-							</div>
+							<label>角色</label>
+							<select class="form-control" name="role.id" id="role-select">
+								<input type="hidden" th:attr="uri=@{/}">
+								<option value="0"></option>
+								<option  th:value="${role.id}" th:each="role:${roles}" th:text="${role.name}"></option>
+								<!--th:selected="${roles!=null}?${role.name}"-->
+							</select>
 						</div>
 						<div class="form-group">
-							<label>驳回原因</label>
-							<input type="text" class="form-control" name="reason" th:value="${postManage!=null}?${postManage.reason}">
+							<label>菜单</label>
+							<select class="form-control" name="role.id" id="menu-select">
+								<option value="0"></option>
+								<option  th:value="${role.id}" th:each="role:${roles}" th:text="${role.name}"></option>
+								<!--th:selected="${roles!=null}?${role.name}"-->
+							</select>
 						</div>
-						<button type="submit" class="btn btn-primary" >驳回</button>
+						<button type="submit" class="btn btn-primary" th:text="${role!=null?'修改':'添加'}">添加</button>
 					</form>
 
 				</main>
@@ -133,6 +124,23 @@
 					}
 				}
 			});
+		</script>
+
+		<script>
+			$('#role-select').change(function () {
+				// console.log($(this).find("option:checked").val());
+                var uri = $(this).find("input").attr('uri');
+				$.ajax({
+					url:uri+'menus',
+					data:{
+					    roleId:$(this).find("option:checked").val()
+					},
+					success:function (data) {
+						$('#menu-select').clear();
+
+                    }
+				})
+            })
 		</script>
 
 	</body>
