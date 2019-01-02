@@ -52,17 +52,10 @@
 				<div th:replace="~{commons/bar::#sidebar}"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-					<form th:action="@{/role}"  method="post">
-						<!--
-							添加隐藏域，以使SpringBoot能将post请求转化为put请求
-						-->
-						<input type="hidden" name="_method" value="put" th:if="${role!=null}"/>
-						<input type="hidden" name="roleId" th:value="${role.id}" th:if="${role!=null}">
-						<input type="hidden" name="id" th:value="${role.id}" th:if="${role!=null}">
+					<form th:action="@{/authority}"  method="post">
 						<div class="form-group">
 							<label>角色</label>
-							<select class="form-control" name="role.id" id="role-select">
-								<input type="hidden" th:attr="uri=@{/}">
+							<select class="form-control" name="roleId" id="role-select" th:attr="uri=@{/}">
 								<option value="0"></option>
 								<option  th:value="${role.id}" th:each="role:${roles}" th:text="${role.name}"></option>
 								<!--th:selected="${roles!=null}?${role.name}"-->
@@ -70,13 +63,11 @@
 						</div>
 						<div class="form-group">
 							<label>菜单</label>
-							<select class="form-control" name="role.id" id="menu-select">
+							<select class="form-control"  id="menu-select" name="menuId">
 								<option value="0"></option>
-								<option  th:value="${role.id}" th:each="role:${roles}" th:text="${role.name}"></option>
-								<!--th:selected="${roles!=null}?${role.name}"-->
 							</select>
 						</div>
-						<button type="submit" class="btn btn-primary" th:text="${role!=null?'修改':'添加'}">添加</button>
+						<button type="submit" class="btn btn-primary">添加</button>
 					</form>
 
 				</main>
@@ -128,15 +119,23 @@
 
 		<script>
 			$('#role-select').change(function () {
-				// console.log($(this).find("option:checked").val());
-                var uri = $(this).find("input").attr('uri');
+				// console.log($(this).find("option:checked").val())
+				// console.log($(this).attr('uri'));
+				var uri = $(this).attr('uri')
 				$.ajax({
 					url:uri+'menus',
 					data:{
 					    roleId:$(this).find("option:checked").val()
 					},
 					success:function (data) {
-						$('#menu-select').clear();
+						$('#menu-select').empty()
+                        // console.log(data)
+                        $('#menu-select').append($('<option></option>').val(0));
+						$.each(data,function (index,item) {
+                            console.log(item)
+                            var option = $('<option></option>').val(item[0]).text(item[1])
+                            $('#menu-select').append(option);
+                        })
 
                     }
 				})

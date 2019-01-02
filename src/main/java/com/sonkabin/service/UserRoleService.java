@@ -14,4 +14,10 @@ public interface UserRoleService {
     UserRole findById(Integer id);
 
     void deleteRole(Integer id);
+
+    void saveAuthority(Integer roleId, Integer menuId);
+
+    Object[] findAllAuthority();
+
+    void deleteAuthority(Integer roleId, Integer menuId);
 }

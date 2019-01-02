@@ -129,13 +129,12 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr th:each="menu:${menus}">
-								<td th:text="${menu.roles[0].name}"></td>
-								<td>[[${menu.name}]]</td>
+							<tr th:each="authority:${authorities}">
+								<td th:text="${authority[0]}"></td>
+								<td th:text="${authority[1]}"></td>
 
 								<td>
-									<a class="btn btn-sm btn-primary" th:href="@{/menu/}+${menu.id}">编辑</a>
-									<button th:attr="del_uri=@{/menu/}+${menu.id},del_name=${menu.name}" class="btn btn-sm btn-danger del-btn">删除</button>
+									<button th:attr="del_uri=@{/authority/},del_role=${authority[2]},del_menu=${authority[3]}" class="btn btn-sm btn-danger del-btn">删除</button>
 								</td>
 							</tr>
 							</tbody>
@@ -157,9 +156,14 @@
 		<script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.2/js/bootstrap.js}" ></script>
 		<script>
 			$('.del-btn').click(function () {
-			    var flag = confirm('确认要删除'+$(this).attr('del_name')+'吗?');
+			    var flag = confirm('确认要删除此权限吗?');
 			    if(flag){
-                    $('#deleteForm').attr('action',$(this).attr('del_uri')).submit();
+			        var menu = $('<input name="menuId">').val($(this).attr('del_menu'))
+                    $('#deleteForm').append(menu)
+					var role = $('<input name="roleId">').val($(this).attr('del_role'))
+                    $('#deleteForm').append(role)
+					// console.log($('#deleteForm'))
+                    $('#deleteForm').attr('action',$(this).attr('del_uri')).submit()
                 }
 				return false;
             })
