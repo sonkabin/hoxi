@@ -45,11 +45,11 @@
 	<body>
 
 		<!--引入抽取的topbar-->
-		<div th:replace="~{commons/bar::topbar}"></div>
+		<div th:replace="~{commons/bar::(${session.mark}==1?teacher-topbar:topbar)}"></div>
 
 		<div class="container-fluid">
 			<div class="row">
-				<div th:replace="~{commons/bar::#sidebar(activeUri='settings')}"></div>
+				<div th:replace="~{commons/bar::(${session.mark}==1?teacher-sidebar:(${session.mark}==2?admin-sidebar:(${session.mark==3}?gov-sidebar:expert-sidebar)))(activeUri='settings')}" ></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 					<h1>系统设置</h1>

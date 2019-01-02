@@ -32,6 +32,12 @@ public class LoginController {
                 session.setAttribute("mark",1);
                 long count = messageService.count(user.getId());
                 session.setAttribute("count",count);
+            }else if("学校职能部门工作人员".equals(user.getRole().getName())){
+                session.setAttribute("mark",2);
+            }else if("学院行政管理人员".equals(user.getRole().getName())){
+                session.setAttribute("mark",3);
+            }else{
+                session.setAttribute("mark",4);
             }
             return "redirect:/main.html";
         }else{
