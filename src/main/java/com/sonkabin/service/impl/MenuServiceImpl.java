@@ -1,11 +1,13 @@
 package com.sonkabin.service.impl;
 
 import com.sonkabin.entity.Menu;
+import com.sonkabin.entity.UserRole;
 import com.sonkabin.repository.MenuRepository;
 import com.sonkabin.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +38,18 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> findAllWithoutRole(Integer id) {
-        List<Menu> menus = menuRepository.findAllWithoutRole(id);
+    public Object[] findAllWithoutRole(Integer id) {
+        Object[] menus = menuRepository.findAllWithRole(id);
         return menus;
+    }
+
+    @Override
+    public void saveAuthority(Integer roleId, Integer menuId) {
+        Menu menu = new Menu();
+        UserRole role = new UserRole();
+        role.setId(roleId);
+        menu.setId(menuId);
+        menu.setRoles(Collections.singleton(role));
+        menuRepository.save(menu);
     }
 }

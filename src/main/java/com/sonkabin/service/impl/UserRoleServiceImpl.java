@@ -5,12 +5,10 @@ import com.sonkabin.entity.UserRole;
 import com.sonkabin.repository.UserRepository;
 import com.sonkabin.repository.UserRoleRepository;
 import com.sonkabin.service.UserRoleService;
-import com.sonkabin.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,5 +45,23 @@ public class UserRoleServiceImpl implements UserRoleService {
             user.setRole(null);
         }
         roleRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = false)
+    @Override
+    public void saveAuthority(Integer roleId, Integer menuId) {
+        roleRepository.saveAuthority(roleId,menuId);
+    }
+
+    @Override
+    public Object[] findAllAuthority() {
+        Object[] authority = roleRepository.findAllAuthority();
+        return authority;
+    }
+
+    @Transactional(readOnly = false)
+    @Override
+    public void deleteAuthority(Integer roleId, Integer menuId) {
+        roleRepository.deleteAuthority(roleId,menuId);
     }
 }

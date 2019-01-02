@@ -41,8 +41,10 @@ public class SettingController {
     public String settings(Model model){
         List<UserRole> roles = roleService.findAll();
         List<Menu> menus = menuService.findAll();
+        Object[] authority = roleService.findAllAuthority();
         model.addAttribute("roles",roles);
         model.addAttribute("menus",menus);
+        model.addAttribute("authorities",authority);
         return "setting";
     }
 
@@ -128,8 +130,22 @@ public class SettingController {
      */
     @ResponseBody
     @RequestMapping("/menus")
-    public List<Menu> getMenus(@RequestParam(name = "roleId")Integer id){
-        List<Menu> menus = menuService.findAllWithoutRole(id);
-        return null;
+    public Object[] getMenus(@RequestParam(name = "roleId")Integer id){
+        Object[]menus = menuService.findAllWithoutRole(id);
+        return menus;
+    }
+
+    @PostMapping("/authority")
+    public String addAuthority(@RequestParam(name = "roleId")Integer roleId,
+                               @RequestParam(name = "menuId")Integer menuId){
+        roleService.saveAuthority(roleId,menuId);
+        return "redirect:/settings";
+    }
+
+    @DeleteMapping("/authority")
+    public String deleteAuthority(@RequestParam(name = "roleId")Integer roleId,
+                                  @RequestParam(name = "menuId")Integer menuId){
+        roleService.deleteAuthority(roleId,menuId);
+        return "redirect:/settings";
     }
 }

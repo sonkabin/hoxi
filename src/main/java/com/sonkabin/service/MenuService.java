@@ -14,5 +14,7 @@ public interface MenuService {
 
     void deleteMenu(Integer id);
 
-    List<Menu> findAllWithoutRole(Integer id);
+    Object[] findAllWithoutRole(Integer id);
+
+    void saveAuthority(Integer roleId, Integer menuId);
 }
