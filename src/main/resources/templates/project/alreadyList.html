@@ -53,7 +53,7 @@
 
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <h1>管理员项目管理</h1>
+            <h1>查看已申报项目状态</h1>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
@@ -63,9 +63,9 @@
                         <th>项目名称</th>
 
                         <th>状态</th>
-                        <th>分配专家</th>
-                        <th>等级</th>
-                        <th>操作</th>
+
+
+
                     </tr>
                     </thead>
                     <tbody>
@@ -74,12 +74,8 @@
                         <td th:text="${project.id}"></td>
                         <td th:text="${project.name}"></td>
                         <td th:text="${project.status}==0?'初审通过':(${project.status}==1?'立项评审中':'待整改')"></td>
-                        <td th:text="${project.profession}"></td>
-                        <td th:text="${project.level}"></td>
-                        <td>
-                            <a class = "btn btn-sm btn-primary" th:href="@{/project/}+${project.id}">修改状态</a>
-                            <a class = "btn btn-sm btn-warning" th:href="@{/check/}+${project.id}">分配专家</a>
-                        </td>
+
+
                     </tr>
                     </tbody>
                 </table>
@@ -136,53 +132,3 @@
 
 </body>
 
-
-<!--
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    <form th:action="@{/project}"  method="post">
-
-            添加隐藏域，以使SpringBoot能将post请求转化为put请求
-
-        <input type="hidden" name="_method" value="put" th:if="${project.user!=null}"/>
-        <input type="hidden" name="id" th:value="${project.user.id}" th:if="${project.user!=null}">
-        <div class="form-group">
-            <label>项目名称</label>
-            <input name="name" type="text" class="form-control" placeholder="XXXX项目" th:value="${project.user!=null}?${project.name}">
-        </div>
-        <div class="form-group">
-            <label>申报级别</label> <select class="form-control" id="level">
-            <option value="1" th:selected="${project.level=='1'}">校级一类</option>
-            <option value="2" th:selected="${project.level=='2'}">校级二类</option>
-        </select>
-        </div>
-        <div class="form-group">
-            <label>负责人</label>
-            <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.user.name}">
-        </div>
-        <!--<div class="form-group">
-            <label>年龄</label> <select class="form-control" id="age">
-            <option value="1" th:selected="${sex=='1'}">男</option>
-            <option value="2" th:selected="${sex=='2'}">女</option>
-        </select></div>
-        <div class="form-group">
-            <label>手机号码</label>
-            <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.phone}">
-        </div>
-        <div class="form-group">
-            <label>电子邮件</label>
-            <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.email}">
-        </div>
-        <div class="form-group">
-            <label>所属专业</label>
-            <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.profession}">
-        </div>
-        <div class="form-group">
-            <label>项目成员</label>
-            <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.member}">
-        </div>
-        <div class="form-group">
-            <label>立项承诺</label>
-            <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.promise}">
-        </div>
-        <button type="submit" class="btn btn-primary" th:text="${project.user!=null?'修改':'添加'}">添加</button>
--->

@@ -35,6 +35,24 @@ public class ProjectController {
         return "project/list";
     }
 
+    @GetMapping("/addAProject")
+    public String toAddProjectPage(Model model){
+        List<Project> projectList = projectService.findAll();
+        model.addAttribute("projectList",projectList);
+        return "project/addAProject";
+    }
 
+    @GetMapping("/alreadyDeclare")
+    public String toLookDeclaredProjectList(Model model){
+        List<Project> projectList=projectService.findAll();
+        model.addAttribute("projectList",projectList);
+        return "project/alreadyList";
+    }
+
+    @GetMapping("/upload")
+            public String toUploadFile(Model model)
+    {
+        List
+    }
 
 }

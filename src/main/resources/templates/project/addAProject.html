@@ -49,23 +49,58 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div th:replace="~{commons/bar::(${session.mark}==1?teacher-sidebar:(${session.mark}==2?admin-sidebar:(${session.mark==3}?gov-sidebar:expert-sidebar)))(activeUri='midManages')}" ></div>
+        <div th:replace="~{commons/bar::(${session.mark}==1?teacher-sidebar:(${session.mark}==2?admin-sidebar:(${session.mark==3}?gov-sidebar:expert-sidebar)))(activeUri='main.html')}" ></div>
 
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <label>查看申报规则</label><br/><br/>
-            <p>在规定的时间期限内，填写项目内容并上传申报书电子版。<br>
-                项目信息包括，申报级别（校级一类、校级二类）、<br>
-                项目名称、负责人（默认登录用户）、<br>
-                手机号码、电子邮件、所属专业、项目成员（多个）、<br>
-                立项承诺等，填写完上述信息后，负责人还需上传申报书电子版。</p>
-            <a class = "btn btn-sm btn-primary" th:href="@{/addAProject}">开始申报</a>&nbsp&nbsp&nbsp
-            <a class = "btn btn-sm btn-primary" th:href="@{/alreadyDeclare}">查看已申报项目</a>
-            <a class = "btn btn-sm btn-primary" th:href="@{/upload}">上传电子版</a>
+            <form th:action="@{/project}"  method="post">
+                <!--
+                    添加隐藏域，以使SpringBoot能将post请求转化为put请求
+                -->
+                <input type="hidden" name="_method" value="put" th:if="${project.user!=null}"/>
+                <input type="hidden" name="id" th:value="${project.user.id}" th:if="${project.user!=null}">
+                <div class="form-group">
+                    <label>项目名称</label>
+                    <input name="name" type="text" class="form-control" placeholder="XXXX项目" th:value="${project.user!=null}?${project.name}">
+                </div>
+                <div class="form-group">
+                    <label>申报级别</label> <select class="form-control" id="level">
+                    <option value="1" th:selected="${project.level=='1'}">校级一类</option>
+                    <option value="2" th:selected="${project.level=='2'}">校级二类</option>
+                </select>
+                </div>
+                <div class="form-group">
+                    <label>负责人</label>
+                    <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.user.name}">
+                </div>
+                <!--<div class="form-group">
+                    <label>年龄</label> <select class="form-control" id="age">
+                    <option value="1" th:selected="${sex=='1'}">男</option>
+                    <option value="2" th:selected="${sex=='2'}">女</option>
+                </select></div>-->
+                <div class="form-group">
+                    <label>手机号码</label>
+                    <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.phone}">
+                </div>
+                <div class="form-group">
+                    <label>电子邮件</label>
+                    <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.email}">
+                </div>
+                <div class="form-group">
+                    <label>所属专业</label>
+                    <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.profession}">
+                </div>
+                <div class="form-group">
+                    <label>项目成员</label>
+                    <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.member}">
+                </div>
+                <div class="form-group">
+                    <label>立项承诺</label>
+                    <input name="name" type="text" class="form-control"  th:value="${project.user!=null}?${project.promise}">
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="${project.user!=null?'修改':'添加'}">添加</button>
 
-            <!--<a class="btn btn-sm" th:href="@{/index.html(l='zh_CN')}">中文</a>
-            <a class = "btn btn-sm btn-primary" th:href="@{/main}">取消</a>-->
-
+            </form>
 
         </main>
     </div>
@@ -78,9 +113,6 @@
 <script type="text/javascript" src="asserts/js/popper.min.js" th:src="@{/asserts/js/popper.min.js}"></script>
 
 <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.2/js/bootstrap.js}" ></script>
-<script>
-
-</script>
 
 <!-- Icons -->
 <script type="text/javascript" src="asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
@@ -119,3 +151,4 @@
 
 </body>
 
+</html>
