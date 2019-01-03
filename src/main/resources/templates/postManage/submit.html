@@ -52,7 +52,12 @@
 				<div th:replace="~{commons/bar::(${session.mark}==1?teacher-sidebar:(${session.mark}==2?admin-sidebar:(${session.mark==3}?gov-sidebar:expert-sidebar)))(activeUri='main.html')}" ></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-					<form th:action="@{/submit}"  method="post">
+					<form th:action="@{/submit}"  method="post" enctype="multipart/form-data">
+						<!--
+							添加隐藏域，以使SpringBoot能将post请求转化为put请求
+						-->
+						<input type="hidden" name="_method" value="put" th:if="${postManage!=null}"/>
+						<input type="hidden" name="postManageId" th:value="${postManage.id}" th:if="${postManage!=null}">
 						<div class="form-group">
 							<label>项目ID</label>
 							<input name="project.id" readonly="true" type="text" class="form-control" th:value="${postManage!=null}?${postManage.project.id}">
@@ -63,17 +68,20 @@
 						</div>
 						<div class="form-group">
 							<label>项目状态</label>
-							<input  name="state" readonly="true" type="text" class="form-control" th:value="${postManage!=null}?${postManage.state}">
+							<input  name="state" readonly="true" type="text" class="form-control" th:value="${postManage.state}==0?'审核中':(${postManage.state}==1?'已结题':'待整改')">
 						</div>
 						<div class="form-group">
 							<label>结题日期</label>
 							<input  name="endDate" readonly="true" type="text" class="form-control" th:value="${postManage!=null}?${postManage.endDate}">
 						</div>
 						<div class="form-group">
-							<label>上传材料说明</label>
-							<input name="path" type="text" class="form-control" th:value="${postManage!=null}?${postManage.path}">
+							<label>材料说明</label>
+							<input  name="explanation" readonly="true" type="text" class="form-control" th:value="${postManage!=null}?${postManage.explanation}">
 						</div>
-
+						<div class="form-group">
+							<label>上传材料</label>
+							<input name="file" type="file" class="form-control">
+						</div>
 						<button type="submit" class="btn btn-primary">提交</button>
 					</form>
 

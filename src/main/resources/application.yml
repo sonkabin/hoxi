@@ -1,10 +1,4 @@
 spring:
-#  datasource:
-#    username: root
-#    password: 123456
-#    url: jdbc:mysql://localhost:3306/db_manage_project?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
