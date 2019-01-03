@@ -19,6 +19,8 @@ public class MidManage {
 
     private String path;
 
+    private String midmaterial;
+
     private String reason;
     @Column(name = "reject_date")
     private LocalDateTime rejectDate;
@@ -66,6 +68,10 @@ public class MidManage {
     public void setPath(String path) {
         this.path = path;
     }
+
+    public String getMidmaterial(){return midmaterial;}
+
+    public void setMidmaterial(String midmaterial){this.midmaterial = midmaterial;}
 
     public String getReason() {
         return reason;

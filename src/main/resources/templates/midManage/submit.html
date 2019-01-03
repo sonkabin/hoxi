@@ -34,11 +34,6 @@
                 opacity: 1
             }
         }
-
-        .chartjs-render-monitor {
-            -webkit-animation: chartjs-render-animation 0.001s;
-            animation: chartjs-render-animation 0.001s;
-        }
     </style>
 </head>
 
@@ -52,40 +47,33 @@
         <div th:replace="~{commons/bar::(${session.mark}==1?teacher-sidebar:(${session.mark}==2?admin-sidebar:(${session.mark==3}?gov-sidebar:expert-sidebar)))(activeUri='main.html')}" ></div>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <form th:action="@{/check}"  method="post">
-            <!--
-							添加隐藏域，以使SpringBoot能将post请求转化为put请求
-						-->
-            <input type="hidden" name="_method" value="put" th:if="${midManage!=null}"/>
-            <input type="hidden" name="id" th:value="${midManage.id}" th:if="${midManage!=null}">
-            <div class="form-group">
-                <label>项目ID</label>
-                <input name="project.id" readonly="true" type="text" class="form-control" th:value="${midManage!=null}?${midManage.project.id}">
-            </div>
-            <div class="form-group" >
-                <label>项目名称</label>
-                <input name="project.name" readonly="true" type="text" class="form-control" th:value="${midManage!=null}?${midManage.project.name}">
-            </div>
-            <div class="form-group">
-                <label>项目状态</label><br/>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="state"  value="0" th:checked="${#strings.equals(midManage.state,'0')}">
-                    <label class="form-check-label">待审核</label>
+            <form th:action="@{/midsubmit}"  method="post">
+                <!--
+                    添加隐藏域，以使SpringBoot能将post请求转化为put请求
+                -->
+                <input type="hidden" name="_method" value="put" th:if="${midManage!=null}"/>
+                <input type="hidden" name="midManageId" th:value="${midManage.id}" th:if="${midManage!=null}">
+                <div class="form-group">
+                    <label>项目ID</label>
+                    <input name="project.id" readonly="true" type="text" class="form-control" th:value="${midManage.project.id}">
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="state"  value="1" th:checked="${#strings.equals(midManage.state,'1')}">
-                    <label class="form-check-label">已通过</label>
+                <div class="form-group">
+                    <label>项目名称</label>
+                    <input name="project.name" readonly="true" type="text" class="form-control" th:value="${midManage.project.name}">
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="state"  value="2" th:checked="${#strings.equals(midManage.state,'2')}">
-                    <label class="form-check-label">待整改</label>
+                <div class="form-group">
+                    <label>截止时间</label>
+                    <input name="endDate" readonly="true" type="text" class="form-control" th:value="${midManage.endDate}">
                 </div>
-            </div>
-            <div class="form-group">
-                <label>驳回原因</label>
-                <input type="text" class="form-control" name="reason" th:value="${midManage!=null}?${midManage.reason}">
-            </div>
-            <button type="submit" class="btn btn-primary" >检查</button>
+                <div class="form-group">
+                    <label>项目说明</label>
+                    <input name="path" type="text" class="form-control" th:value="${midManage.path}">
+                </div>
+                <div class="form-group">
+                    <label>上传材料</label>
+                    <input name="midmaterial" type="text" class="form-control" th:value="${midManage.midmaterial}">
+                </div>
+                <button type="submit" class="btn btn-primary">提交</button>
             </form>
 
         </main>
@@ -137,4 +125,4 @@
 
 </body>
 
-</html>
+</html>>

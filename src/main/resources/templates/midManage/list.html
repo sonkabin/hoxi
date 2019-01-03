@@ -61,7 +61,7 @@
                         <th>编号</th>
                         <th>项目ID</th>
                         <th>项目名称</th>
-                        <th>开题日期</th>
+                        <th>截止日期</th>
                         <th>材料说明</th>
                         <th>状态</th>
                         <th>操作</th>
@@ -72,7 +72,7 @@
                         <td th:text="${midManage.id}"></td>
                         <td th:text="${midManage.project.id}"></td>
                         <td th:text="${midManage.project.name}"></td>
-                        <td th:text="${#temporals.format(midManage.project.create,'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${#temporals.format(midManage.endDate,'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td th:text="${midManage.path}"></td>
                         <td th:text="${midManage.state}==0?'审核中':(${midManage.state}==1?'已通过':'待整改')"></td>
                         <td>
