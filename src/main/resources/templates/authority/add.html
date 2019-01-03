@@ -130,11 +130,11 @@
 					success:function (data) {
 						$('#menu-select').empty()
                         // console.log(data)
-                        $('#menu-select').append($('<option></option>').val(0));
-						$.each(data,function (index,item) {
+                        $('#menu-select').append($('<option></option>').val(0))//添加一个空的option标签
+						$.each(data,function (index,item) {//遍历所有的菜单
                             console.log(item)
                             var option = $('<option></option>').val(item[0]).text(item[1])
-                            $('#menu-select').append(option);
+                            $('#menu-select').append(option);//添加为select的子标签
                         })
 
                     }
