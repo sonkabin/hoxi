@@ -51,7 +51,7 @@
         <div th:replace="~{commons/bar::(${session.mark}==1?teacher-sidebar:(${session.mark}==2?admin-sidebar:(${session.mark==3}?gov-sidebar:expert-sidebar)))(activeUri='main.html')}" ></div>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <form th:action="@{/midManage}"  method="post">
+            <form th:action="@{/midManage}"  method="post" enctype="multipart/form-data">
                 <!--
                     添加隐藏域，以使SpringBoot能将post请求转化为put请求
                 -->
@@ -67,11 +67,11 @@
                 </div>
                 <div class="form-group">
                     <label>截止时间</label>
-                    <input name="endDate" id="datetimepicker" readonly="true" type="text" class="form-control" th:value="${#temporals.format(midManage.endDate,'yyyy-MM-dd HH:mm:ss')}">
+                    <input name="endDate" id="datetimepicker" readonly="true" type="text" class="form-control" th:value="${#temporals.format(midManage.endDate,'yyyy-MM-dd')}">
                 </div>
                 <div class="form-group">
-                    <label>上传材料</label>
-                    <input name="path" type="text" class="form-control" th:value="${midManage.path}">
+                    <label>上传材料说明</label>
+                    <input name="file" type="file" class="form-control">
                 </div>
                 <div class="form-group">
                     <label>项目状态</label><br/>
@@ -116,7 +116,7 @@
 
 <script type="text/javascript">
     $('#datetimepicker').datetimepicker({
-        format: 'yyyy-MM-dd HH:mm:ss'
+        format: 'yyyy-mm-dd'
     });
 </script>
 
