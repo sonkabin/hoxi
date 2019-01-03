@@ -33,6 +33,16 @@ public class PostManage {
     @Column(name = "gmt_modified")
     private LocalDateTime update;
 
+    private String explanation;
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+
     public Integer getId() {
         return id;
     }

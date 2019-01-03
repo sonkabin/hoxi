@@ -62,6 +62,7 @@
 									<th>项目名称</th>
 									<th>结题日期</th>
 									<th>材料说明</th>
+									<th>上传材料</th>
 									<th>状态</th>
 									<th>操作</th>
 								</tr>
@@ -72,10 +73,13 @@
 									<td th:text="${postManage.project.id}"></td>
 									<td th:text="${postManage.project.name}"></td>
 									<td th:text="${#temporals.format(postManage.endDate,'yyyy-MM-dd')}"></td>
+									<td th:text="${postManage.explanation}"></td>
 									<td th:text="${postManage.path}"></td>
 									<td th:text="${postManage.state}==0?'审核中':(${postManage.state}==1?'已结题':'待整改') "></td>
 									<td>
-										<a class="btn btn-sm btn-primary" th:href="@{/postManage/}+${postManage.id}">编辑</a>
+										<a class="btn btn-sm btn-primary" th:href="@{/download/}+${postManage.id}" th:if="${session.mark}==3">下载</a>
+										<a class="btn btn-sm btn-primary" th:href="@{/postManage/}+${postManage.id}+'/'+${session.mark}"
+										th:text="${session.mark}==1?'上传':'编辑'"></a>
 										<a class="btn btn-sm btn-danger" th:href="@{/reject/}+${postManage.id}">驳回</a>
 									</td>
 								</tr>
