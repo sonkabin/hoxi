@@ -38,6 +38,12 @@ public class MidManageController{
         return "midManage/list";
     }
 
+    @GetMapping("/tecmidManages")
+    public String toTeacherListPage(Model model){
+        List<MidManage> midManages= midManageService.findAll();
+        model.addAttribute("midManages",midManages);
+        return "midManage/teacherlist";
+    }
 
     @GetMapping("/midManage/{id}")
     public String toEditPage(@PathVariable("id") Integer id, Model model){
@@ -69,6 +75,20 @@ public class MidManageController{
         return "redirect:/midManages";
     }
 
+    @GetMapping("/midsubmit/{id}")
+    public String toMidSubmitPage(@PathVariable("id") Integer id, Model model){
+        MidManage midManage = midManageService.findOne(id);
+        List<Project> projects = projectService.findAll();
+        model.addAttribute("midManage",midManage);
+        model.addAttribute("projects",projects);
+        return "/midManage/submit";
+    }
+
+    @PutMapping("/midsubmit")
+    public String updateMidSubmit(MidManage midManage){
+        midManageService.saveMidManage(midManage);
+        return "redirect:/tecmidManages";
+    }
 
 
 }
