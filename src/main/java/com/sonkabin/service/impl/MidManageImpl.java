@@ -3,9 +3,11 @@ package com.sonkabin.service.impl;
 
 import com.sonkabin.entity.MidManage;
 import com.sonkabin.entity.PostManage;
+import com.sonkabin.entity.Project;
 import com.sonkabin.entity.User;
 import com.sonkabin.repository.MidManageRepository;
 import com.sonkabin.repository.PostManageRepository;
+import com.sonkabin.repository.ProjectRepository;
 import com.sonkabin.service.MidManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ public class MidManageImpl implements MidManageService {
     private MidManageRepository midManageRepository;
     @Autowired
     private PostManageRepository postManageRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @Override
     public List<MidManage> findAll() {
@@ -60,9 +64,13 @@ public class MidManageImpl implements MidManageService {
         if (midManage.getState().equals("1")) {
             PostManage postManage = new PostManage();
             postManage.setState("0");
-            postManage.setProject(midManage.getProject());
+            Integer proId = midManage.getProject().getId();
+            Project project = projectRepository.getOne(proId);
+            postManage.setProject(project);
             postManage.setCreate(LocalDateTime.now());
             postManageRepository.save(postManage);
+            project.setStatus(5);
+            projectRepository.save(project);
         }
     }
 
@@ -81,9 +89,13 @@ public class MidManageImpl implements MidManageService {
         if(midManage.getState().equals("1")){
             PostManage postManage = new PostManage();
             postManage.setState("0");
-            postManage.setProject(midManage.getProject());
+            Integer proId = midManage.getProject().getId();
+            Project project = projectRepository.getOne(proId);
+            postManage.setProject(project);
             postManage.setCreate(LocalDateTime.now());
             postManageRepository.save(postManage);
+            project.setStatus(5);
+            projectRepository.save(project);
         }
     }
     @Override
