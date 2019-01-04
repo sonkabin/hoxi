@@ -38,16 +38,16 @@ public class PostManageImpl implements PostManageService {
     }
 
     @Override
-    public void savePostManage(PostManage postManage, MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
+    public void savePostManage(PostManage postManage, MultipartFile file) throws IOException {//上传材料
+        String fileName = file.getOriginalFilename();//获取文件名
         String filePath = "/Users/apple/Desktop/"+fileName;
         BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
-        outputStream.write(file.getBytes());
+        outputStream.write(file.getBytes());//上传
         outputStream.flush();
         outputStream.close();
-        postManage.setPath(filePath);
+        postManage.setPath(filePath);//将文件路径保存到数据库中
         postManage.setCreate(LocalDateTime.now());
         postManage.setUpdate(LocalDateTime.now());
-        postManageRepository.save(postManage);
+        postManageRepository.save(postManage);//更新数据
     }
 }
