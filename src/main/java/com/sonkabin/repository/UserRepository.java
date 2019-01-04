@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     //select * from user where user = username and password = password
     User findUserByNameAndPassword(String username,String password);
 
-    //三表连接
+    //三表连接,获得用户的基本信息、部门和角色
     @Query(value = "SELECT u FROM User u INNER JOIN FETCH u.dept d INNER JOIN FETCH u.role r ORDER BY u.id")
     List<User> findAllWithDetails();
 

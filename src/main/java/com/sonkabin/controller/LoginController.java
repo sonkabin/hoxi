@@ -25,12 +25,12 @@ public class LoginController {
                         Map<String,Object> map, HttpSession session){
         User user = userService.login(username,password);
         //1表示教职工，2表示学校职能部门工作人员，3表示学院行政管理人员，4表示外部评审专家
-        if(!ObjectUtils.isEmpty(user)){
+        if(!ObjectUtils.isEmpty(user)){//判断用户是否存在
             session.setAttribute("loginUser",username);
             session.setAttribute("id",user.getId());
             if("教职工".equals(user.getRole().getName())){
                 session.setAttribute("mark",1);
-                long count = messageService.count(user.getId());
+                long count = messageService.count(user.getId());//获取消息数量
                 session.setAttribute("count",count);
             }else if("学校职能部门工作人员".equals(user.getRole().getName())){
                 session.setAttribute("mark",2);
