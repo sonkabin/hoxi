@@ -21,6 +21,8 @@ public class Project {
     private String email;
     @Column(length = 30)
     private String profession;
+    @Column(name = "user_name")
+    private String userName;
 
     private String promise;//立项承诺
     @Column(length = 50)
@@ -140,6 +142,14 @@ public class Project {
 
     public void setUpdate(LocalDateTime update) {
         this.update = update;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Project() {

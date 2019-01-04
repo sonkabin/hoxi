@@ -2,8 +2,10 @@ package com.sonkabin.service.impl;
 
 import com.sonkabin.entity.MidManage;
 import com.sonkabin.entity.PreManage;
+import com.sonkabin.entity.Project;
 import com.sonkabin.repository.MidManageRepository;
 import com.sonkabin.repository.PreManageRepository;
+import com.sonkabin.repository.ProjectRepository;
 import com.sonkabin.service.PreManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ public class PreManageImpl implements PreManageService {
     private  PreManageRepository preManageRepository;
     @Autowired
     private MidManageRepository midManageRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
 
 
     @Override
@@ -41,13 +45,17 @@ public class PreManageImpl implements PreManageService {
             midManage.setProject(preManage.getProject());
             midManage.setCreate(LocalDateTime.now());
             midManageRepository.save(midManage);
+            Integer id = preManage.getProject().getId();
+            Project project = projectRepository.findById(id).get();
+            project.setStatus(2);
+            projectRepository.save(project);
         }
     }
 
     @Override
     public void savePreManage(PreManage preManage, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = "C:\\Users\\pppa\\Desktop\\" + fileName;
+        String filePath = "C:\\Users\\FMD\\Desktop\\" + fileName;
         BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
         outputStream.write(file.getBytes());
         outputStream.flush();

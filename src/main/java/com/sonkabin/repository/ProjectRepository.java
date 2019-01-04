@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project,Integer> {
 
-   @Query(value = "select p from Project p inner join fetch p.user pp where p.id is not null order by p.id")
+   @Query(value = "select p from Project p inner join fetch p.user pp order by p.id")
    List<Project> findAllWithDetails();
 }

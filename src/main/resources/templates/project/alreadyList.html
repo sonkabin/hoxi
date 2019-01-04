@@ -73,7 +73,7 @@
                         <td th:text="${project.id}"></td>
                         <td th:text="${project.id}"></td>
                         <td th:text="${project.name}"></td>
-                        <td th:text="${project.status}==0?'初审通过':(${project.status}==1?'立项评审中':'待整改')"></td>
+                        <td th:text="${project.status}==0?'初审通过':(${project.status}==1?'立项评审中':(${project.status}==2?'立项评审完成':(${project.status}==3?'已立项':(${project.status}==4?'未立项':'初审中'))))"></td>
 
 
                     </tr>

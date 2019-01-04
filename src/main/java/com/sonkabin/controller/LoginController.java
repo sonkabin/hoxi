@@ -27,8 +27,8 @@ public class LoginController {
         //1表示教职工，2表示学校职能部门工作人员，3表示学院行政管理人员，4表示外部评审专家
         if(!ObjectUtils.isEmpty(user)){
             session.setAttribute("loginUser",username);
+            session.setAttribute("id",user.getId());
             if("教职工".equals(user.getRole().getName())){
-                session.setAttribute("id",user.getId());
                 session.setAttribute("mark",1);
                 long count = messageService.count(user.getId());
                 session.setAttribute("count",count);
