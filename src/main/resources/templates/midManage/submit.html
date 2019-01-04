@@ -14,9 +14,6 @@
 
     <!-- Custom styles for this template -->
     <link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
-
-    <link th:href="@{/asserts/css/bootstrap-datetimepicker.css}" rel="stylesheet">
-
     <style type="text/css">
         /* Chart.js */
 
@@ -38,7 +35,6 @@
             }
         }
     </style>
-    <script src="../../static/asserts/js/bootstrap-datetimepicker.min.js"></script>
 </head>
 
 <body>
@@ -51,7 +47,7 @@
         <div th:replace="~{commons/bar::(${session.mark}==1?teacher-sidebar:(${session.mark}==2?admin-sidebar:(${session.mark==3}?gov-sidebar:expert-sidebar)))(activeUri='main.html')}" ></div>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <form th:action="@{/midManage}"  method="post" enctype="multipart/form-data">
+            <form th:action="@{/midsubmit}"  method="post" enctype="multipart/form-data">
                 <!--
                     添加隐藏域，以使SpringBoot能将post请求转化为put请求
                 -->
@@ -67,26 +63,16 @@
                 </div>
                 <div class="form-group">
                     <label>截止时间</label>
-                    <input name="endDate" id="datetimepicker" readonly="true" type="text" class="form-control" th:value="${#temporals.format(midManage.endDate,'yyyy-MM-dd')}">
+                    <input name="endDate" readonly="true" type="text" class="form-control" th:value="${midManage.endDate}">
                 </div>
                 <div class="form-group">
-                    <label>上传材料说明</label>
+                    <label>项目说明</label>
+                    <input name="path"  readonly="true" type="text" class="form-control" th:value="${midManage.path}">
+                    <a class="btn btn-sm btn-primary"  th:href="@{/middownload/}+${midManage.id}">下载</a>
+                </div>
+                <div class="form-group">
+                    <label>上传材料</label>
                     <input name="file" type="file" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>项目状态</label><br/>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="state"  value="0" th:checked="${#strings.equals(midManage.state,'0')}">
-                        <label class="form-check-label">审核中</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="state"  value="1" th:checked="${#strings.equals(midManage.state,'1')}">
-                        <label class="form-check-label">已通过</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="state"  value="2" th:checked="${#strings.equals(midManage.state,'2')}">
-                        <label class="form-check-label">待整改</label>
-                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">提交</button>
             </form>
@@ -108,18 +94,6 @@
 
 <!-- Graphs -->
 <script type="text/javascript" th:src="@{/asserts/js/Chart.min.js}"  src="../../static/asserts/js/Chart.min.js"></script>
-
-<script type="text/javascript" src="asserts/js/bootstrap-datetimepicker.js" th:src="@{/asserts/js/bootstrap-datetimepicker.js}"></script>
-
-<script type="text/javascript" src="asserts/js/locales" th:src="@{/asserts/js/locales}"></script>
-
-
-<script type="text/javascript">
-    $('#datetimepicker').datetimepicker({
-        format: 'yyyy-mm-dd'
-    });
-</script>
-
 <script>
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
@@ -152,4 +126,4 @@
 
 </body>
 
-</html>
+</html>>

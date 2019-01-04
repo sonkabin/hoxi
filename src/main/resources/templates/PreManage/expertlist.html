@@ -14,8 +14,6 @@
 
     <!-- Custom styles for this template -->
     <link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
-
-    <link th:href="@{/asserts/css/bootstrap-datetimepicker.css}" rel="stylesheet">
     <style type="text/css">
         /* Chart.js */
 
@@ -51,50 +49,40 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div th:replace="~{commons/bar::(${session.mark}==1?teacher-sidebar:(${session.mark}==2?admin-sidebar:(${session.mark==3}?gov-sidebar:expert-sidebar)))(activeUri='main.html')}" ></div>
+        <div th:replace="~{commons/bar::(${session.mark}==1?teacher-sidebar:(${session.mark}==2?admin-sidebar:(${session.mark==3}?gov-sidebar:expert-sidebar)))(activeUri='midManages')}" ></div>
+
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <form th:action="@{/check}"  method="post">
-            <!--
-							添加隐藏域，以使SpringBoot能将post请求转化为put请求
-						-->
-            <input type="hidden" name="_method" value="put" th:if="${midManage!=null}"/>
-            <input type="hidden" name="midManageId" th:value="${midManage.id}" th:if="${midManage!=null}">
-            <div class="form-group">
-                <label>项目ID</label>
-                <input name="project.id" readonly="true" type="text" class="form-control" th:value="${midManage!=null}?${midManage.project.id}">
+            <h1>申报管理</h1>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>项目ID</th>
+                        <th>项目名称</th>
+                        <th>创立时间</th>
+                        <th>申报材料</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${preManage.project.status!=0}" th:each="preManage:${preManages}">
+                        <td th:text="${preManage.id}"></td>
+                        <td th:text="${preManage.project.id}"></td>
+                        <td th:text="${preManage.project.name}"></td>
+                        <td th:text="${#temporals.format(preManage.create,'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${preManage.path}"></td>
+                        <td th:text="${preManage.project.status}==1?'立项评审中':'已立项'"></td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" th:href="@{/preManage/}+${preManage.id}"
+                               th:text="${preManage.project.status}==1? '评审':null"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="form-group" >
-                <label>项目名称</label>
-                <input name="project.name" readonly="true" type="text" class="form-control" th:value="${midManage!=null}?${midManage.project.name}">
-            </div>
-            <div>
-                <label>已提交材料</label>
-                <input name = "midmaterial" readonly="true" type="text" class="form-control" th:value="${midManage!=null}?${midManage.midmaterial}">
-                <a class="btn btn-sm btn-primary"  th:href="@{/tecmiddownload/}+${midManage.id}">下载</a>
-            </div>
-            <div class="form-group">
-                <label>项目状态</label><br/>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="state"  value="0" th:checked="${#strings.equals(midManage.state,'0')}">
-                    <label class="form-check-label">待审核</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="state"  value="1" th:checked="${#strings.equals(midManage.state,'1')}">
-                    <label class="form-check-label">已通过</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="state"  value="2" th:checked="${#strings.equals(midManage.state,'2')}">
-                    <label class="form-check-label">待整改</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>驳回原因</label>
-                <input type="text" class="form-control" name="reason" th:value="${midManage!=null}?${midManage.reason}">
-            </div>
-            <button type="submit" class="btn btn-primary" >提交</button>
-            </form>
-
         </main>
     </div>
 </div>
@@ -106,23 +94,15 @@
 <script type="text/javascript" src="asserts/js/popper.min.js" th:src="@{/asserts/js/popper.min.js}"></script>
 
 <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.2/js/bootstrap.js}" ></script>
+<script>
+
+</script>
 
 <!-- Icons -->
 <script type="text/javascript" src="asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
 
 <!-- Graphs -->
 <script type="text/javascript" th:src="@{/asserts/js/Chart.min.js}"  src="../../static/asserts/js/Chart.min.js"></script>
-
-<script type="text/javascript" src="asserts/js/bootstrap-datetimepicker.js" th:src="@{/asserts/js/bootstrap-datetimepicker.js}"></script>
-
-<script type="text/javascript" src="asserts/js/locales" th:src="@{/asserts/js/locales}"></script>
-
-
-<script type="text/javascript">
-    $('#datetimepicker').datetimepicker({
-        format: 'yyyy-mm-dd'
-    });
-</script>
 <script>
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
@@ -154,5 +134,3 @@
 </script>
 
 </body>
-
-</html>

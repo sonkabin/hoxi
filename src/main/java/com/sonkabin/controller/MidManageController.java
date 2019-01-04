@@ -4,11 +4,18 @@ import com.sonkabin.entity.MidManage;
 import com.sonkabin.entity.Project;
 import com.sonkabin.service.MidManageService;
 import com.sonkabin.service.ProjectService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +45,12 @@ public class MidManageController{
         return "midManage/list";
     }
 
+    @GetMapping("/tecmidManages")
+    public String toTeacherListPage(Model model){
+        List<MidManage> midManages= midManageService.findAll();
+        model.addAttribute("midManages",midManages);
+        return "midManage/teacherlist";
+    }
 
     @GetMapping("/midManage/{id}")
     public String toEditPage(@PathVariable("id") Integer id, Model model){
@@ -49,8 +62,8 @@ public class MidManageController{
 
     }
     @PutMapping("/midManage")
-    public String updateMidManage(MidManage midManage){
-        midManageService.saveMidManage(midManage);
+    public String updateMidManage(MidManage midManage,@RequestParam("file") MultipartFile file)throws IOException {
+        midManageService.savetecMidManage(midManage,file);
         return "redirect:/midManages";
     }
 
@@ -69,6 +82,55 @@ public class MidManageController{
         return "redirect:/midManages";
     }
 
+    @GetMapping("/midsubmit/{id}")
+    public String toMidSubmitPage(@PathVariable("id") Integer id, Model model){
+        MidManage midManage = midManageService.findOne(id);
+        List<Project> projects = projectService.findAll();
+        model.addAttribute("midManage",midManage);
+        model.addAttribute("projects",projects);
+        return "/midManage/submit";
+    }
+
+    @PutMapping("/midsubmit")
+    public String updateMidSubmit(MidManage midManage,@RequestParam("file") MultipartFile file)throws IOException {
+        midManageService.saveMidManage(midManage,file);
+        return "redirect:/tecmidManages";
+    }
+
+
+    @RequestMapping("/tecmiddownload/{id}")
+    public ResponseEntity<byte[]> tecmiddownload(@PathVariable("id")Integer id)throws IOException{
+        MidManage midManage = midManageService.findOne(id);
+        String filePath = midManage.getMidmaterial();
+        String[] strings = filePath.split("/");
+        String name = strings[strings.length-1];
+        File file = new File(filePath);
+        //处理显示中文文件名的问题
+        String fileName=new String(name.getBytes("utf-8"),"ISO-8859-1");
+        //设置请求头内容,告诉浏览器代开下载窗口
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment",fileName );
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        ResponseEntity responseEntity = new ResponseEntity(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED);
+        return responseEntity;
+    }
+
+    @RequestMapping("/middownload/{id}")
+    public ResponseEntity<byte[]>middownload(@PathVariable("id")Integer id)throws IOException{
+        MidManage midManage = midManageService.findOne(id);
+        String filePath = midManage.getPath();
+        String[] strings = filePath.split("/");
+        String name = strings[strings.length-1];
+        File file = new File(filePath);
+        //处理显示中文文件名的问题
+        String fileName=new String(name.getBytes("utf-8"),"ISO-8859-1");
+        //设置请求头内容,告诉浏览器代开下载窗口
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment",fileName );
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        ResponseEntity responseEntity = new ResponseEntity(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED);
+        return responseEntity;
+    }
 
 
 }
