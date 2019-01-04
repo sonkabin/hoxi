@@ -4,7 +4,6 @@ import com.sonkabin.entity.PostManage;
 import com.sonkabin.entity.Project;
 import com.sonkabin.service.PostManageService;
 import com.sonkabin.service.ProjectService;
-import com.sonkabin.service.UserService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,12 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +27,6 @@ public class PostManageController {
     private PostManageService postManageService;
     @Autowired
     private ProjectService projectService;
-    @Autowired
-    private UserService userService;
 
     @ModelAttribute
     public void getPostManage(@RequestParam(value = "postManageId",required = false)Integer id, Map<String,Object> map){
@@ -52,7 +45,7 @@ public class PostManageController {
         return "postManage/list";
     }
 
-    @GetMapping("/postManage/{id}/{userstatus}")
+    @GetMapping("/postManage/{id}/{userstatus}")//跳转到设置页面
     public String toEditPage(@PathVariable("id")Integer id, Model model,@PathVariable("userstatus")Integer userstatus){//@PathVariable能将请求中的id取出
         PostManage postManage = postManageService.findOne(id);
         List<Project> projects = projectService.findAll();
@@ -60,15 +53,15 @@ public class PostManageController {
         model.addAttribute("projects",projects);
         String str = null;
         if(userstatus==3) {
-            str = "/postManage/edit";
+            str = "/postManage/edit";//若登录用户为管理员，则转发至编辑页面
         } else if (userstatus==1) {
-            str = "/postManage/submit";
+            str = "/postManage/submit";//若登录用户为教职工，则转发至材料上传页面
         }
         return str;
     }
 
     @PutMapping("/postManage" )
-    public String updatePostManage(PostManage postManage){//更新结题日期
+    public String updatePostManage(PostManage postManage){//更新结题日期和材料说明
         postManageService.savePostManage(postManage);
         return "redirect:/postManages";
     }
@@ -95,7 +88,7 @@ public class PostManageController {
     }
 
     @RequestMapping("/download/{id}")
-    public ResponseEntity<byte[]> download(@PathVariable("id")Integer id) throws IOException {
+    public ResponseEntity<byte[]> download(@PathVariable("id")Integer id) throws IOException {//下载负责人上传的材料
         PostManage postManage = postManageService.findOne(id);
         String filePath = postManage.getPath();
         String[] strings = filePath.split("/");

@@ -1,6 +1,9 @@
 package com.sonkabin.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,8 +15,9 @@ public class MidManage {
     @OneToOne
     @JoinColumn(name = "project_id")
     private Project project;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "end_date")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     private String state;
 
@@ -45,11 +49,11 @@ public class MidManage {
         this.project = project;
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
